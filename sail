@@ -48,7 +48,7 @@ fi
 function sail_is_not_running {
     echo -e "${WHITE}Sail is not running.${NC}"
     echo ""
-    echo -e "${WHITE}You may Sail using the following commands:${NC} './sail up' or './sail up -d'"
+    echo -e "${WHITE}You may Sail using the following commands:${NC} './vendor/bin/sail up' or './vendor/bin/sail up -d'"
 
     exit 1
 }
@@ -72,7 +72,6 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "composer" ]; then
         shift 1
         echo "$APP_SERVICE"
-        docker ps
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u nginx \
