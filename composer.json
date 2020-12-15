@@ -1,5 +1,5 @@
 {
-    "name": "dreadkopp/slim-sail",
+    "name": "laravel/sail",
     "description": "Docker files for running a basic slim application.",
     "keywords": ["slim", "docker"],
     "license": "MIT",
