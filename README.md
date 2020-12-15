@@ -1,4 +1,6 @@
-# Laravel Sail
+# ~~Laravel~~ SLIM Sail
+
+## this is a fork from laravel/sail intended to be used with your slim project. assumes you got a docker-compose.yml in your root directory that will start your dev-env. Also assumes you are using a php-alpine image and nginx as well as having your files owned by user nginx
 
 <a href="https://packagist.org/packages/laravel/sail">
     <img src="https://img.shields.io/packagist/dt/laravel/sail" alt="Total Downloads">
@@ -9,6 +11,7 @@
 <a href="https://packagist.org/packages/laravel/sail">
     <img src="https://img.shields.io/packagist/l/laravel/sail" alt="License">
 </a>
+
 
 ## Introduction
 

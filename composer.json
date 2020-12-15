@@ -1,42 +1,32 @@
 {
-    "name": "laravel/sail",
-    "description": "Docker files for running a basic Laravel application.",
-    "keywords": ["laravel", "docker"],
+    "name": "dreadkopp/slim-sail",
+    "description": "Docker files for running a basic slim application.",
+    "keywords": ["slim", "docker"],
     "license": "MIT",
-    "support": {
-        "issues": "https://github.com/laravel/sail/issues",
-        "source": "https://github.com/laravel/sail"
-    },
     "authors": [
         {
             "name": "Taylor Otwell",
             "email": "taylor@laravel.com"
+        },
+        {
+            "name": "Arne Ziegert"
         }
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/contracts": "^8.0|^9.0",
-        "illuminate/support": "^8.0|^9.0"
+        "slim/slim": "*",
+        "robmorgan/phinx": "*"
     },
     "require-dev": {
-        "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^9.3"
     },
     "autoload": {
-        "psr-4": {
-            "Laravel\\Sail\\": "src/"
-        }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        },
-        "laravel": {
-            "providers": [
-                "Laravel\\Sail\\SailServiceProvider"
-            ]
-        }
     },
+    "bin": [
+        "sail"
+    ],
     "config": {
         "sort-packages": true
     },
