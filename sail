@@ -103,7 +103,7 @@ if [ $# -gt 0 ]; then
             docker-compose exec \
                 -u nginx -T \
                 "$APP_SERVICE" \
-                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" "$PWD"/vendor/bin/phpunit -c "$PWD"/phpunit.xml -d max_execution_time=1200 "$PWD"/tests --do-not-cache-result --testdox "$@"
+                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" ./vendor/bin/phpunit -c ./phpunit.xml -d max_execution_time=1200 ./tests --do-not-cache-result --testdox "$@"
         else
             sail_is_not_running
         fi
@@ -116,7 +116,7 @@ if [ $# -gt 0 ]; then
             docker-compose exec \
                 -u nginx -T \
                 "$APP_SERVICE" \
-                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" "$PWD"/vendor/bin/phpunit -c "$PWD"/phpunit.xml -d max_execution_time=1200 "$PWD"/tests --do-not-cache-result --teamcity "$@"
+                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" ./vendor/bin/phpunit -c ./phpunit.xml -d max_execution_time=1200 ./tests --do-not-cache-result --teamcity "$@"
         else
             sail_is_not_running
         fi
