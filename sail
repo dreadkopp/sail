@@ -61,7 +61,7 @@ if [ $# -gt 0 ]; then
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
+                -u nginx -T \
                 "$APP_SERVICE" \
                 php "$@"
         else
@@ -75,7 +75,7 @@ if [ $# -gt 0 ]; then
         docker ps
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
+                -u nginx -T \
                 "$APP_SERVICE" \
                 composer "$@"
         else
@@ -89,7 +89,6 @@ if [ $# -gt 0 ]; then
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
                 -u nginx -T \
                 "$APP_SERVICE" \
                 php internal/mgmt.php "$@"
@@ -104,7 +103,7 @@ if [ $# -gt 0 ]; then
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
+                -u nginx -T \
                 "$APP_SERVICE" \
                 php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" "$PWD"/vendor/bin/phpunit -c "$PWD"/phpunit.xml -d max_execution_time=1200 "$PWD"/tests --do-not-cache-result --testdox "$@"
         else
@@ -133,8 +132,7 @@ if [ $# -gt 0 ]; then
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
-                -u sail \
+                -u sail -T \
                 "$APP_SERVICE" \
                 ./vendor/bin/phinx "$@"
         else
@@ -162,7 +160,6 @@ if [ $# -gt 0 ]; then
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
-                -u nginx \
                 -u sail \
                 "$APP_SERVICE" \
                 ash
