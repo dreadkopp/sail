@@ -82,7 +82,6 @@ if [ $# -gt 0 ]; then
             sail_is_not_running
         fi
 
-    # Proxy Artisan commands to the "artisan" binary on the application container...
     # Proxy Manage commands to internal/mgmt.php on the application container...
     elif [ "$1" == "manage" ]; then
         shift 1
@@ -96,7 +95,6 @@ if [ $# -gt 0 ]; then
             sail_is_not_running
         fi
 
-    # Proxy the "test" command to the "php artisan test" Artisan command...
     # Proxy the "test" command to phpunit ...
     elif [ "$1" == "test" ]; then
         shift 1
@@ -110,7 +108,6 @@ if [ $# -gt 0 ]; then
             sail_is_not_running
         fi
 
-   # Proxy the "test" command to the "php artisan test" Artisan command...
    # Proxy the "test_teamcity" command to phpunit with teamcity output...
     elif [ "$1" == "test_teamcity" ]; then
         shift 1
@@ -125,7 +122,6 @@ if [ $# -gt 0 ]; then
         fi
 
 
-    # Proxy the "test" command to the "php artisan test" Artisan command...
     # Proxy the "phinx" command to vendor/bin/phinx for migrations and seeds...
     elif [ "$1" == "phinx" ]; then
         shift 1
