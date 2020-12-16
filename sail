@@ -48,7 +48,7 @@ fi
 function sail_is_not_running {
     echo -e "${WHITE}Sail is not running.${NC}"
     echo ""
-    echo -e "${WHITE}You may Sail using the following commands:${NC} './vendor/bin/sail up' or './vendor/bin/sail up -d'"
+    echo -e "${WHITE}You may Sail using the following commands:${NC} './sail up' or './sail up -d'"
 
     exit 1
 }
@@ -72,6 +72,7 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "composer" ]; then
         shift 1
         echo "$APP_SERVICE"
+        docker ps
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u nginx \
@@ -82,19 +83,22 @@ if [ $# -gt 0 ]; then
         fi
 
     # Proxy Artisan commands to the "artisan" binary on the application container...
+    # Proxy Manage commands to internal/mgmt.php on the application container...
     elif [ "$1" == "manage" ]; then
         shift 1
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u nginx \
+                -u nginx -T \
                 "$APP_SERVICE" \
-                php internal/manage.php "$@"
+                php internal/mgmt.php "$@"
         else
             sail_is_not_running
         fi
 
     # Proxy the "test" command to the "php artisan test" Artisan command...
+    # Proxy the "test" command to phpunit ...
     elif [ "$1" == "test" ]; then
         shift 1
 
@@ -102,33 +106,64 @@ if [ $# -gt 0 ]; then
             docker-compose exec \
                 -u nginx \
                 "$APP_SERVICE" \
-                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" /var/www/webshop/vendor/bin/phpunit -c /var/www/webshop/phpunit.xml -d max_execution_time=1200 /var/www/webshop/tests --testdox "$@"
+                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" "$PWD"/vendor/bin/phpunit -c "$PWD"/phpunit.xml -d max_execution_time=1200 "$PWD"/tests --do-not-cache-result --testdox "$@"
+        else
+            sail_is_not_running
+        fi
+
+   # Proxy the "test" command to the "php artisan test" Artisan command...
+   # Proxy the "test_teamcity" command to phpunit with teamcity output...
+    elif [ "$1" == "test_teamcity" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u nginx -T \
+                "$APP_SERVICE" \
+                php -dpcov.enabled=1 -dpcov.directory=./../ -dpcov.exclude="~vendor~" "$PWD"/vendor/bin/phpunit -c "$PWD"/phpunit.xml -d max_execution_time=1200 "$PWD"/tests --do-not-cache-result --teamcity "$@"
         else
             sail_is_not_running
         fi
 
 
     # Proxy the "test" command to the "php artisan test" Artisan command...
+    # Proxy the "phinx" command to vendor/bin/phinx for migrations and seeds...
     elif [ "$1" == "phinx" ]; then
         shift 1
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u nginx \
+                -u sail \
                 "$APP_SERVICE" \
                 ./vendor/bin/phinx "$@"
         else
             sail_is_not_running
         fi
 
+    # Proxy the "init_dev_db" command create your local db...
+    elif [ "$1" == "init_dev_db" ]; then
+        shift 1
 
     # Initiate a Bash shell within the application container...
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u sail -T \
+                "$APP_SERVICE" \
+                cd "$PWD"/db/init && ./init
+        else
+            sail_is_not_running
+        fi
+
+
+    # Initiate a Ash shell within the application container...
     elif [ "$1" == "shell" ]; then
         shift 1
 
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u nginx \
+                -u sail \
                 "$APP_SERVICE" \
                 ash
         else
