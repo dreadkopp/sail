@@ -150,7 +150,7 @@ if [ $# -gt 0 ]; then
             docker-compose exec \
                 -u sail -T \
                 "$APP_SERVICE" \
-                cd "$PWD"/db/init && ./init
+                ./db/init/init
         else
             sail_is_not_running
         fi
